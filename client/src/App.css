@@ -325,7 +325,7 @@ form input[type="date"] {
 }
 /*Space-weather*/
 
-/*search bar*/
+  /*search bar*/
 .search-bar-wrapper {
   display: flex;
   flex-direction: column;
@@ -589,7 +589,9 @@ input:checked + .slider:before {
   .navbar-links.active {
     display: flex;
   }
-
+  .navbar-links > li > a::after {
+    bottom: 0%;
+  }
   /*picture day */
 
   .wrapper-picture-day{
