@@ -84,7 +84,9 @@ const Mars = () => {
       </div>
     </div>
   ) : (
-    <div className="loader"></div>
+    <div className="loaderWrapper">
+      <div className="loader"></div>
+    </div>
   );
 };
 

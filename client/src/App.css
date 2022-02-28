@@ -606,12 +606,21 @@ input:checked + .slider:before {
   }
 
   /* Mars */
+  .loaderWrapper{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   #mars-begin-info, #mars-picture-info {
     text-align: center;
   }
 
   .mars-rover-gallery {
     flex-direction: column;
+    justify-content: unset;
+    width: 100%;
+    height: auto;
   }
 
   .img-mars {
