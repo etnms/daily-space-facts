@@ -325,6 +325,12 @@ form input[type="date"] {
 }
 /*Space-weather*/
 
+/*search bar*/
+.search-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .wrapper-results-weather {
   width: 100%;
 }
@@ -627,7 +633,7 @@ input:checked + .slider:before {
   .asteroid-page {
     width: 100%;
   }
-  
+
   .asteroid-list-cards {
     width: 90%;
   }
