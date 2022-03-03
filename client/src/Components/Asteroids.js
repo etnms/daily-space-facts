@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import ToggleSwitch from "./ToggleSwitch";
+import axios from "axios";
 
 const Asteroid = () => {
-  const [apiKey, setApiKey] = useState();
   const [loading, setLoading] = useState(true);
   const [imperial, setImperial] = useState(false);
   const [listAsteroids, setListAsteroids] = useState([]);
 
   const tmpDate = new Date();
   const day =
-    tmpDate.getDate() < 10
-      ? `0${tmpDate.getDate().toString()}`
-      : tmpDate.getDate();
+    tmpDate.getUTCDay() < 10
+      ? `0${tmpDate.getUTCDay().toString()}`
+      : tmpDate.getUTCDay();
   const month =
     tmpDate.getMonth() + 1 < 10
       ? `0${(tmpDate.getMonth() + 1).toString()}`
@@ -21,30 +21,27 @@ const Asteroid = () => {
   const date = `${year}-${month}-${day}`;
 
   useEffect(() => {
-    getKey();
     asteroids();
-  }, [apiKey]);
-
-  const getKey = async () => {
-    const query = await fetch("/api");
-    const res = await query.json();
-    setApiKey(res.apiKey);
-  };
+  }, []);
 
   const asteroids = async () => {
-    if (apiKey !== undefined) {
-      try {
-        setLoading(true);
-        const query = await fetch(
-          `https://api.nasa.gov/neo/rest/v1/feed?start_date=${date}&end_date=${date}&api_key=${apiKey}`
-        );
-        const res = await query.json();
-        setListAsteroids(res.near_earth_objects[date]);
+    setLoading(true);
+    const query = {
+      method: "GET",
+      url: "/api/near-earth-objects",
+      params: {
+        start_date: date,
+        end_date: date,
+      },
+    };
+    axios
+      .request(query)
+      .then((response) => {
+        console.log(response.data);
+        setListAsteroids(response.data.near_earth_objects[date]);
         setLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
-    }
+      })
+      .catch((error) => console.log(error));
   };
 
   const listMapped = listAsteroids.map((element) => (
@@ -131,14 +128,15 @@ const Asteroid = () => {
   ));
   return (
     <div className="wrapper-asteroid">
-      {loading ? 
-       <div className="loader"></div> : (
+      {loading ? (
+        <div className="loader"></div>
+      ) : (
         <main className="asteroid-page">
           <h1 className="title">Near Earth Objects</h1>
-          <ToggleSwitch setImperial={setImperial}></ToggleSwitch>  
+          <ToggleSwitch setImperial={setImperial}></ToggleSwitch>
           <ul className="asteroid-list-cards">{listMapped}</ul>
         </main>
-      ) }
+      )}
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
+import axios from "axios";
 
 const SpaceWeather = () => {
-  const [apiKey, setApiKey] = useState();
+  //const [apiKey, setApiKey] = useState();
 
   const [date, setDate] = useState("yyyy-MM-dd"); //defaut date for API
   const [dateTitle, setDateTitle] = useState(" in the last 30 days"); //defaut to last 30days
@@ -23,42 +24,43 @@ const SpaceWeather = () => {
   //once a value is selected save it in current value for individual searches
   const [currentValue, setCurrentValue] = useState("FLR"); //defaut to flares
   useEffect(() => {
-    getKey();
     fetchWeather(typeArray[0]);
-  }, [apiKey]);
-
-  const getKey = async () => {
-    const query = await fetch("/api");
-    const res = await query.json();
-    setApiKey(res.apiKey);
-  };
+  }, []);
 
   const fetchWeather = async (type) => {
-    if (apiKey !== undefined) {
-      try {
-        setLoading(true);
-        const query = await fetch(
-          `https://api.nasa.gov/DONKI/${type}?startDate=${date}&endDate=${date}&api_key=${apiKey}`
-        );
-        const res = await query.json();
-        if (res) setLoading(false);
-        setResults(res);
+    setLoading(true);
+    const query = {
+      method: "GET",
+      url: `/api/space-weather`,
+      params: {
+        type: `${type}?`,
+        startDate: date,
+        endDate: date,
+      },
+    };
+    axios
+      .request(query)
+      .then((response) => {
+        console.log(response.data);
+        setLoading(false);
+        setResults(response.data);
         resultWeather(results);
         setSearchFound(true);
-      } catch (err) {
-        //if error returns no result
-        setSearchFound(false);
-        setLoading(false);
-        console.log(err);
-      }
-    }
+        if (response.data === "") {
+          setSearchFound(false);
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const formatDate = (date) => {
-    let letString = date.replace(/[Z]/g, '')
-    letString = letString.replace(/[T]/g, ' ')
+    let letString = date.replace(/[Z]/g, "");
+    letString = letString.replace(/[T]/g, " ");
     return letString;
-  }
+  };
   // Displays the different lists that are chosen by the users
   const resultWeather = (weatherType) => {
     if (weatherType.length === 0) {
@@ -96,7 +98,9 @@ const SpaceWeather = () => {
             {weatherType.map((el) => (
               <li key={el.gstID}>
                 <p>Start time: {formatDate(el.startTime)} UTC</p>
-                <p>Observed time: {formatDate(el.allKpIndex[0].observedTime)} UTC</p>
+                <p>
+                  Observed time: {formatDate(el.allKpIndex[0].observedTime)} UTC
+                </p>
                 <p>KP index: {el.allKpIndex[0].kpIndex}</p>
               </li>
             ))}

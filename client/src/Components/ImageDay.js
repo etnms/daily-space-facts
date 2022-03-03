@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const ImageDay = () => {
-  const [apiKey, setApiKey] = useState();
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState({
     url: "",
@@ -11,35 +10,19 @@ const ImageDay = () => {
   });
 
   useEffect(() => {
-    getKey();
     pictureDay();
-  }, [apiKey]);
-
-  const getKey = async () => {
-    const query = await fetch("/api");
-    const res = await query.json();
-    setApiKey(res.apiKey);
-  };
+  }, []);
 
   const pictureDay = async () => {
-    if (apiKey !== undefined) {
-      try {
-        const query = await fetch(
-          `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`,
-          { mode: "cors" }
-        );
-        const res = await query.json();
-        setImage({
-          url: res.hdurl,
-          copyright: res.copyright,
-          explanation: res.explanation,
-          title: res.title,
-        });
-        setLoading(false);
-      } catch (err) {
-        console.log("Error: ", err);
-      }
-    }
+    const query = await fetch("/api/pictureday");
+    const res = await query.json();
+    setImage({
+      url: res.hdurl,
+      copyright: res.copyright,
+      explanation: res.explanation,
+      title: res.title,
+    });
+    setLoading(false);
   };
 
   const copyrightParagraph = () => {

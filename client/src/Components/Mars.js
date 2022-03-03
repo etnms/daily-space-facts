@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const Mars = () => {
-  const [apiKey, setApiKey] = useState();
   const [begin, setBegin] = useState(true);
   const [rdn, setRdn] = useState(Math.floor(Math.random() * 856));
   const [image, setImage] = useState({
@@ -16,34 +15,23 @@ const Mars = () => {
   });
 
   useEffect(() => {
-    getKey();
     fetchUrl(rdn);
-  }, [rdn, apiKey]);
-
-  const getKey = async () => {
-    const query = await fetch("/api");
-    const res = await query.json();
-    setApiKey(res.apiKey);
-  };
+  }, [rdn]);
 
   const fetchUrl = async () => {
     setImage({ url: "" });
-    if (apiKey !== undefined) {
-      const query = await fetch(
-        `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${apiKey}`
-      );
-      const res = await query.json();
-      setImage({
-        url: res.photos[rdn].img_src,
-        cameraFullName: res.photos[rdn].camera.full_name,
-        cameraName: res.photos[rdn].camera.name,
-        datePicture: res.photos[rdn].earth_date,
-        roverName: res.photos[rdn].rover.name,
-        roverLaunchDate: res.photos[rdn].rover.launch_date,
-        roverLandingDate: res.photos[rdn].rover.landing_date,
-        status: res.photos[rdn].rover.status,
-      });
-    }
+    const query = await fetch("/api/mars");
+    const res = await query.json();
+    setImage({
+      url: res.photos[rdn].img_src,
+      cameraFullName: res.photos[rdn].camera.full_name,
+      cameraName: res.photos[rdn].camera.name,
+      datePicture: res.photos[rdn].earth_date,
+      roverName: res.photos[rdn].rover.name,
+      roverLaunchDate: res.photos[rdn].rover.launch_date,
+      roverLandingDate: res.photos[rdn].rover.landing_date,
+      status: res.photos[rdn].rover.status,
+    });
   };
 
   const generateRdmImage = () => {
