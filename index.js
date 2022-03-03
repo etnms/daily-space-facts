@@ -75,7 +75,6 @@ app.get("/api/space-weather", (req, res) => {
   axios
     .request(query)
     .then((response) => {
-      console.log(response);
       res.json(response.data);
     })
     .catch((err) => console.log(err));

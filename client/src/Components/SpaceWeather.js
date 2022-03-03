@@ -41,7 +41,6 @@ const SpaceWeather = () => {
     axios
       .request(query)
       .then((response) => {
-        console.log(response.data);
         setLoading(false);
         setResults(response.data);
         resultWeather(results);

@@ -37,7 +37,6 @@ const Asteroid = () => {
     axios
       .request(query)
       .then((response) => {
-        console.log(response.data);
         setListAsteroids(response.data.near_earth_objects[date]);
         setLoading(false);
       })
