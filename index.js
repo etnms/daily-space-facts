@@ -45,8 +45,8 @@ app.get("/api/near-earth-objects", (req, res) => {
     method: "GET",
     url: "https://api.nasa.gov/neo/rest/v1/feed?",
     params: {
-      start_date: req.query.date,
-      end_date: req.query.date,
+      start_date: req.query.start_date,
+      end_date: req.query.end_date,
       api_key: process.env.REACT_APP_API_KEY,
     },
   };
@@ -70,8 +70,6 @@ app.get("/api/space-weather", (req, res) => {
       api_key: process.env.REACT_APP_API_KEY,
     },
   };
-  console.log(query);
-
   axios
     .request(query)
     .then((response) => {

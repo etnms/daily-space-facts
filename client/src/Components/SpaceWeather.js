@@ -28,6 +28,7 @@ const SpaceWeather = () => {
   }, []);
 
   const fetchWeather = async (type) => {
+    console.log(date);
     setLoading(true);
     const query = {
       method: "GET",
@@ -56,8 +57,15 @@ const SpaceWeather = () => {
   };
 
   const formatDate = (date) => {
-    let letString = date.replace(/[Z]/g, "");
-    letString = letString.replace(/[T]/g, " ");
+    let letString = "";
+    if (date !== null) {
+      letString = date.replace(/[Z]/g, "");
+      letString = letString.replace(/[T]/g, " ");
+      letString += " UTC";
+    }
+    if (date === null) {
+      letString = "Unknown"
+    }
     return letString;
   };
   // Displays the different lists that are chosen by the users
@@ -76,9 +84,9 @@ const SpaceWeather = () => {
           <ul className="list-weather list-flares">
             {weatherType.map((el) => (
               <li key={el.flrID}>
-                <p>Begin time: {formatDate(el.beginTime)} UTC</p>
-                <p>End time: {formatDate(el.endTime)} UTC</p>
-                <p>Peak time: {formatDate(el.peakTime)} UTC</p>
+                <p>Begin time: {formatDate(el.beginTime)} </p>
+                <p>End time: {formatDate(el.endTime)} </p>
+                <p>Peak time: {formatDate(el.peakTime)} </p>
                 <p>Class type: {el.classType}</p>
               </li>
             ))}
@@ -96,9 +104,9 @@ const SpaceWeather = () => {
           <ul className="list-weather list-storms">
             {weatherType.map((el) => (
               <li key={el.gstID}>
-                <p>Start time: {formatDate(el.startTime)} UTC</p>
+                <p>Start time: {formatDate(el.startTime)}</p>
                 <p>
-                  Observed time: {formatDate(el.allKpIndex[0].observedTime)} UTC
+                  Observed time: {formatDate(el.allKpIndex[0].observedTime)}
                 </p>
                 <p>KP index: {el.allKpIndex[0].kpIndex}</p>
               </li>
@@ -123,7 +131,7 @@ const SpaceWeather = () => {
               if (el.cmeAnalyses !== null)
                 return (
                   <li key={el.activityID}>
-                    <p>Start time: {formatDate(el.startTime)} UTC</p>
+                    <p>Start time: {formatDate(el.startTime)}</p>
                     <p>Latitude: {el.cmeAnalyses[0].latitude}</p>
                     <p>Longitude: {el.cmeAnalyses[0].longitude}</p>
                     <p>Type: {el.cmeAnalyses[0].type}</p>
@@ -152,7 +160,7 @@ const SpaceWeather = () => {
           <ul className="list-weather list-shocks">
             {weatherType.map((el) => (
               <li key={el.activityID}>
-                <p>Event time: {formatDate(el.eventTime)} UTC</p>
+                <p>Event time: {formatDate(el.eventTime)}</p>
                 <p>Location of observation: {el.location}</p>
               </li>
             ))}

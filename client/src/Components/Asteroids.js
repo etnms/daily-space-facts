@@ -9,14 +9,14 @@ const Asteroid = () => {
 
   const tmpDate = new Date();
   const day =
-    tmpDate.getUTCDay() < 10
-      ? `0${tmpDate.getUTCDay().toString()}`
-      : tmpDate.getUTCDay();
+    tmpDate.getUTCDate() < 10
+      ? `0${tmpDate.getUTCDate().toString()}`
+      : tmpDate.getUTCDate();
   const month =
-    tmpDate.getMonth() + 1 < 10
-      ? `0${(tmpDate.getMonth() + 1).toString()}`
-      : tmpDate.getDMonth() + 1;
-  const year = tmpDate.getFullYear();
+    tmpDate.getUTCMonth() + 1 < 10
+      ? `0${(tmpDate.getUTCMonth() + 1).toString()}`
+      : tmpDate.getUTCMonth() + 1;
+  const year = tmpDate.getUTCFullYear();
 
   const date = `${year}-${month}-${day}`;
 
