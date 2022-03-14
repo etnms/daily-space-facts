@@ -54,6 +54,9 @@ p {
   text-align: center;
 }
 
+.title-sm {
+  font-size: 1.3rem;
+}
 .homepage {
   display: flex;
   flex-direction: column;

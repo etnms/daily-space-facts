@@ -32,7 +32,7 @@ const SearchBar = (props) => {
   return (
     <div className="search-bar-wrapper">
       <form className="search-bar" onSubmit={(e) => handleSubmit(e)}>
-        <h3>Looking for a specific date?</h3>
+        <h1 className="title-sm">Looking for a specific date?</h1>
         <input type="date" name="datesearch" onChange={(e) => handleEvent(e)} />
         <input type="submit" value="Search" className="btn btn-submit" />
       </form>

@@ -28,7 +28,6 @@ const SpaceWeather = () => {
   }, []);
 
   const fetchWeather = async (type) => {
-    console.log(date);
     setLoading(true);
     const query = {
       method: "GET",
