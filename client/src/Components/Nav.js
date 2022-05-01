@@ -10,16 +10,16 @@ const NavBar = () => {
   useEffect(() => {
     setToggleButton(document.getElementsByClassName("toggle-button")[0]);
     setNavBarLinks(document.getElementsByClassName("navbar-links")[0]);
-    test();
-  }, [toggleButton]);
+    
+      if (navBarLinks !== undefined) {
+        toggleButton.addEventListener("click", () => {
+          navBarLinks.classList.toggle("active");
+        });
+      }
+    
+  }, [toggleButton, navBarLinks]);
 
-  const test = () => {
-    if (navBarLinks !== undefined) {
-      toggleButton.addEventListener("click", () => {
-        navBarLinks.classList.toggle("active");
-      });
-    }
-  };
+  
 
   return (
     <nav className="navbar">

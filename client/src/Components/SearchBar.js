@@ -11,7 +11,7 @@ const SearchBar = (props) => {
       fetchWeather(currentValue);
       setReset(false);
     }
-  }, [date, reset]);
+  }, [date, reset, currentValue, fetchWeather]);
 
   const handleEvent = (e) => {
     setDate(e.target.value);

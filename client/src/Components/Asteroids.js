@@ -21,27 +21,28 @@ const Asteroid = () => {
   const date = `${year}-${month}-${day}`;
 
   useEffect(() => {
-    asteroids();
-  }, []);
-
-  const asteroids = async () => {
-    setLoading(true);
-    const query = {
-      method: "GET",
-      url: "/api/near-earth-objects",
-      params: {
-        start_date: date,
-        end_date: date,
-      },
+    const asteroids = async () => {
+      setLoading(true);
+      const query = {
+        method: "GET",
+        url: "/api/near-earth-objects",
+        params: {
+          start_date: date,
+          end_date: date,
+        },
+      };
+      axios
+        .request(query)
+        .then((response) => {
+          setListAsteroids(response.data.near_earth_objects[date]);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
     };
-    axios
-      .request(query)
-      .then((response) => {
-        setListAsteroids(response.data.near_earth_objects[date]);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  };
+    asteroids();
+  }, [date]);
+
+  
 
   const listMapped = listAsteroids.map((element) => (
     <li className="asteroid-card" key={"asteroid-" + element.name}>

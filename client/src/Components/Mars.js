@@ -15,24 +15,26 @@ const Mars = () => {
   });
 
   useEffect(() => {
+    const fetchUrl = async () => {
+      setImage({ url: "" });
+      const query = await fetch("/api/mars");
+      const res = await query.json();
+      setImage({
+        url: res.photos[rdn].img_src,
+        cameraFullName: res.photos[rdn].camera.full_name,
+        cameraName: res.photos[rdn].camera.name,
+        datePicture: res.photos[rdn].earth_date,
+        roverName: res.photos[rdn].rover.name,
+        roverLaunchDate: res.photos[rdn].rover.launch_date,
+        roverLandingDate: res.photos[rdn].rover.landing_date,
+        status: res.photos[rdn].rover.status,
+      });
+    };
+    
     fetchUrl(rdn);
   }, [rdn]);
 
-  const fetchUrl = async () => {
-    setImage({ url: "" });
-    const query = await fetch("/api/mars");
-    const res = await query.json();
-    setImage({
-      url: res.photos[rdn].img_src,
-      cameraFullName: res.photos[rdn].camera.full_name,
-      cameraName: res.photos[rdn].camera.name,
-      datePicture: res.photos[rdn].earth_date,
-      roverName: res.photos[rdn].rover.name,
-      roverLaunchDate: res.photos[rdn].rover.launch_date,
-      roverLandingDate: res.photos[rdn].rover.landing_date,
-      status: res.photos[rdn].rover.status,
-    });
-  };
+  
 
   const generateRdmImage = () => {
     setRdn(Math.floor(Math.random() * 856));
